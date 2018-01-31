@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # coding: utf8
 import argparse
+
 from telethon import TelegramClient
-from telethon.tl.functions.channels import GetFullChannelRequest, JoinChannelRequest, LeaveChannelRequest
-from telethon.tl.types import UpdateNewChannelMessage
+from telethon.tl.functions.channels import JoinChannelRequest
+from telethon.tl.types import UpdateNewChannelMessage, PeerChannel
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('-S', '--session-file', required=True, help='session file path (see telethon lib docs)')
@@ -13,7 +14,6 @@ parser.add_argument('-C', '--channel-name', help='channel to join ')
 args = parser.parse_args()
 if args.session_file.endswith('.session'):
     args.session = args.session_file[:-8]
-
 
 tg = TelegramClient(args.session_file, args.api_id, args.api_hash, update_workers=0)
 ok = tg.connect()
@@ -32,19 +32,17 @@ if args.channel_name:
 
 while True:
     try:
-        print('waitng chats messages...')
+        print('* Waitng channels messages...')
         update = tg.updates.poll()
         if not update:
             continue
         if type(update) == UpdateNewChannelMessage:
             msg = update.message
-            print('\n* Incoming Chat Message *')
+            print('\n--- Channel Message ---')
+            channel_id = msg.to_id.channel_id
+            print('Channel:', tg.get_entity(PeerChannel(channel_id)).title)
             print('Text:', msg.message)
             print()
     except KeyboardInterrupt:
         break
 tg.disconnect()
-
-
-
-

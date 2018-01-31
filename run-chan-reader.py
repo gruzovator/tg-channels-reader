@@ -40,6 +40,7 @@ while True:
             msg = update.message
             print('\n* Incoming Chat Message *')
             print('Text:', msg.message)
+            print()
     except KeyboardInterrupt:
         break
 tg.disconnect()

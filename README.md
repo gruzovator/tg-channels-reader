@@ -11,5 +11,5 @@ _Pure Python 3 Telegram client library [telethon](https://github.com/LonamiWebs/
     ```
 3. Run demo app
     ```
-    ./run-chat-reader.py -I <your api id> -H <your api hash> -S tg -C <channel name>
+    ./run-chan-reader.py -I <your api id> -H <your api hash> -S tg -C <channel name>
 ```
